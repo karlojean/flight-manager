@@ -24,6 +24,16 @@ public class Flight {
     @ManyToMany(mappedBy = "flights")
     private Set<Passenger> passengers;
 
+    public Flight() {
+    }
+
+    public Flight(String origin, String destination, LocalDate departure, LocalDate arrival) {
+        this.origin = origin;
+        this.destination = destination;
+        this.departure = departure;
+        this.arrival = arrival;
+    }
+
     public Long getId() {
         return id;
     }
