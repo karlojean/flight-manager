@@ -1,5 +1,7 @@
 package com.flight_manager.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -28,6 +30,7 @@ public class Passenger {
             name = "tb_ticket",
             joinColumns = @JoinColumn(name = "passenger_id"),
             inverseJoinColumns = @JoinColumn(name = "flight_id"))
+    @JsonIgnoreProperties("passengers")
     private Set<Flight> flights;
 
     public Passenger(String name, String cpf, String passportNumber, String email) {

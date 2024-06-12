@@ -1,11 +1,13 @@
 package com.flight_manager.services;
 
+import com.flight_manager.controllers.PassengerController;
 import com.flight_manager.controllers.dto.CreatePassengerDto;
 import com.flight_manager.entities.Passenger;
 import com.flight_manager.exceptions.PassengerDataAlreadyExistsException;
 import com.flight_manager.repositories.PassengerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,5 +29,9 @@ public class PassengerService {
         var passengerCreated = passengerRepository.save(passenger.toPassenger());
 
         return passengerCreated;
+    }
+
+    public List<Passenger> getAll(){
+        return passengerRepository.findAll();
     }
 }

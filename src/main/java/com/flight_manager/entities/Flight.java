@@ -1,5 +1,7 @@
 package com.flight_manager.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -22,6 +24,7 @@ public class Flight {
     private LocalDate arrival;
 
     @ManyToMany(mappedBy = "flights")
+    @JsonIgnoreProperties("flights")
     private Set<Passenger> passengers;
 
     public Flight() {
@@ -76,5 +79,10 @@ public class Flight {
 
     public void setPassengers(Set<Passenger> passengers) {
         this.passengers = passengers;
+    }
+
+    public void addPassenger(Passenger passenger) {
+        this.passengers.add(passenger);
+        passenger.getFlights().add(this);
     }
 }
