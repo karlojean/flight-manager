@@ -33,4 +33,11 @@ public class PassengerController {
 
         return ResponseEntity.ok().body(passengers);
     }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<Passenger> disablePassenger(@PathVariable Long id) {
+        var passenger = passengerService.disablePassenger(id);
+        return ResponseEntity.ok().body(passenger);
+    }
+
 }

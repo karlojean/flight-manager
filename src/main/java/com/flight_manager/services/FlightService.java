@@ -3,14 +3,13 @@ package com.flight_manager.services;
 import com.flight_manager.controllers.dto.CreateFlightDto;
 import com.flight_manager.entities.Flight;
 import com.flight_manager.entities.Passenger;
-import com.flight_manager.exceptions.FlightDateIsIncompatibleException;
-import com.flight_manager.exceptions.FlightNotFound;
-import com.flight_manager.exceptions.PassengerNotFound;
+import com.flight_manager.exceptions.*;
 import com.flight_manager.repositories.FlightRepository;
 import com.flight_manager.repositories.PassengerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class FlightService {
@@ -48,10 +47,15 @@ public class FlightService {
         Passenger passenger = passengerRepository.findById(passengerId)
                 .orElseThrow(PassengerNotFound::new);
 
+        flight.getPassengers().forEach(p -> {
+            if (Objects.equals(p.getId(), passenger.getId())) {
+                throw new PassengerIsAlreadyOnTheFlightException();
+            }
+        });
+
         flight.addPassenger(passenger);
 
         return flightRepository.save(flight);
     }
-
 
 }

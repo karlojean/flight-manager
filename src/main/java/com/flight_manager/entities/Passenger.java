@@ -33,11 +33,14 @@ public class Passenger {
     @JsonIgnoreProperties("passengers")
     private Set<Flight> flights;
 
+    private boolean active;
+
     public Passenger(String name, String cpf, String passportNumber, String email) {
         this.name = name;
         this.cpf = cpf;
         this.passportNumber = passportNumber;
         this.email = email;
+        this.active = true;
     }
 
     public Passenger() {
@@ -86,5 +89,17 @@ public class Passenger {
 
     public void setFlights(Set<Flight> flights) {
         this.flights = flights;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

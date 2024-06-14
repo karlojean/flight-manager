@@ -2,6 +2,7 @@ package com.flight_manager.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.flight_manager.exceptions.FlightCapacityExceededException;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -27,14 +28,17 @@ public class Flight {
     @JsonIgnoreProperties("flights")
     private Set<Passenger> passengers;
 
+    private Integer numberOfPassengers;
+
     public Flight() {
     }
 
-    public Flight(String origin, String destination, LocalDate departure, LocalDate arrival) {
+    public Flight(String origin, String destination, LocalDate departure, LocalDate arrival, Integer numberOfPassengers) {
         this.origin = origin;
         this.destination = destination;
         this.departure = departure;
         this.arrival = arrival;
+        this.numberOfPassengers = numberOfPassengers;
     }
 
     public Long getId() {
@@ -77,11 +81,18 @@ public class Flight {
         return passengers;
     }
 
-    public void setPassengers(Set<Passenger> passengers) {
-        this.passengers = passengers;
+    public Integer getNumberOfPassengers() {
+        return numberOfPassengers;
+    }
+
+    public void setNumberOfPassengers(Integer numberOfPassenger) {
+        this.numberOfPassengers = numberOfPassenger;
     }
 
     public void addPassenger(Passenger passenger) {
+        if(this.passengers.size() >= this.numberOfPassengers) {
+            throw new FlightCapacityExceededException();
+        }
         this.passengers.add(passenger);
         passenger.getFlights().add(this);
     }

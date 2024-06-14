@@ -20,9 +20,12 @@ public record CreateFlightDto (
 
         @NotNull
         @Future(message = "Arrival must be a future data")
-        LocalDate arrival
+        LocalDate arrival,
+
+        @NotNull
+        Integer numberOfPassengers
 ) {
         public Flight toFlight() {
-                return new Flight(origin, destination, departure, arrival);
+                return new Flight(origin, destination, departure, arrival, numberOfPassengers);
         }
 }
