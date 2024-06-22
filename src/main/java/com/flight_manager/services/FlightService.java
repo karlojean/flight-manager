@@ -47,6 +47,10 @@ public class FlightService {
         Passenger passenger = passengerRepository.findById(passengerId)
                 .orElseThrow(PassengerNotFound::new);
 
+        if(!passenger.isActive()) {
+            throw new PassengerIsDisabledException();
+        }
+
         flight.getPassengers().forEach(p -> {
             if (Objects.equals(p.getId(), passenger.getId())) {
                 throw new PassengerIsAlreadyOnTheFlightException();
@@ -55,6 +59,21 @@ public class FlightService {
 
         flight.addPassenger(passenger);
 
+        return flightRepository.save(flight);
+    }
+
+    public Flight removePassengerToFlight(Long flightId, Long passengerId) {
+        Flight flight = flightRepository.findById(flightId)
+                .orElseThrow(FlightNotFound::new);
+
+        Passenger passenger = passengerRepository.findById(passengerId)
+                .orElseThrow(PassengerNotFound::new);
+
+        if (!flight.getPassengers().contains(passenger)) {
+            throw new PassengerNotOnFlightException();
+        }
+
+        flight.removePassenger(passenger);
         return flightRepository.save(flight);
     }
 

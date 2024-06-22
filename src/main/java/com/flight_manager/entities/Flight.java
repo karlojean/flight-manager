@@ -96,4 +96,9 @@ public class Flight {
         this.passengers.add(passenger);
         passenger.getFlights().add(this);
     }
+
+    public void removePassenger(Passenger passenger) {
+        this.passengers.remove(passenger);
+        passenger.getFlights().remove(this);
+    }
 }

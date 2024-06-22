@@ -34,8 +34,12 @@ public class PassengerService {
         return passengerCreated;
     }
 
-    public List<Passenger> getAll(){
-        return passengerRepository.findAll();
+    public List<Passenger> getPassengers(boolean includeInactive){
+        if(includeInactive) {
+            return passengerRepository.findAll();
+        }
+
+        return passengerRepository.findAllByActive(true);
     }
 
     public Passenger disablePassenger(Long id) {
@@ -50,6 +54,15 @@ public class PassengerService {
         }
 
         passenger.setActive(false);
+        passengerRepository.save(passenger);
+
+        return passenger;
+    }
+
+    public Passenger activePassenger(Long id) {
+        var passenger = passengerRepository.findById(id).orElseThrow(PassengerNotFound::new);
+
+        passenger.setActive(true);
         passengerRepository.save(passenger);
 
         return passenger;

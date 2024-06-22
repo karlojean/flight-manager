@@ -33,11 +33,17 @@ public class FlightController {
     }
 
 
-    @PostMapping("/{flightId}/passengers/{passengerId}")
+    @PostMapping("{flightId}/add/{passengerId}")
     public ResponseEntity<Flight> addPassengerToFlight(@PathVariable Long flightId, @PathVariable Long passengerId) {
         Flight updatedFlight = flightService.addPassengerToFlight(flightId, passengerId);
 
         return ResponseEntity.ok().body(updatedFlight);
     }
 
+    @PostMapping("{flightId}/remove/{passengerId}")
+    public ResponseEntity<Flight> removePassengerToFlight(@PathVariable Long flightId, @PathVariable Long passengerId) {
+        Flight updatedFlight = flightService.removePassengerToFlight(flightId, passengerId);
+
+        return ResponseEntity.ok().body(updatedFlight);
+    }
 }

@@ -28,16 +28,21 @@ public class PassengerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Passenger>> getAll() {
-        List<Passenger> passengers = passengerService.getAll();
+    public ResponseEntity<List<Passenger>> getPassengers(@RequestParam(defaultValue = "false") boolean includeInactive) {
+        List<Passenger> passengers = passengerService.getPassengers(includeInactive);
 
         return ResponseEntity.ok().body(passengers);
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("{id}/deactivate")
     public ResponseEntity<Passenger> disablePassenger(@PathVariable Long id) {
         var passenger = passengerService.disablePassenger(id);
         return ResponseEntity.ok().body(passenger);
     }
 
+    @PostMapping("{id}/active")
+    public ResponseEntity<Passenger> activePassenger(@PathVariable Long id) {
+        var passenger = passengerService.activePassenger(id);
+        return ResponseEntity.ok().body(passenger);
+    }
 }
